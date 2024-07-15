@@ -82,6 +82,7 @@ import { ref } from 'vue'
 import useSignInGoogle from '../composables/useSignInGoogle'
 import useSignup from '../composables/useSignup'
 import { errorToast } from '../composables/useToast'
+import { useRouter } from 'vue-router'
 
 export default {
 	name: 'Signup',
@@ -91,6 +92,7 @@ export default {
 		const email = ref('')
 		const password = ref('')
 		const loading = ref(null)
+		const router = useRouter()
 
 		const { error, signup } = useSignup()
 		const { e, addDoc } = addUsers('Users')
@@ -104,8 +106,14 @@ export default {
 				const data = user.providerData[0]
 				await addDoc({ ...data, score: 0 })
 				context.emit('login')
+				router.push('/home')
 			} else {
-				errorToast('Error', error.value)
+				loading.value = false
+				if (error.value.includes('auth/email-already-in-use')) {
+					errorToast('Error', 'Email already exists.')
+				} else {
+					errorToast('Error', error.value)
+				}
 			}
 		}
 
@@ -118,6 +126,7 @@ export default {
 				const data = user.providerData[0]
 				await addDoc({ ...data, score: 0 })
 				context.emit('login')
+				router.push('/home')
 			} else {
 				errorToast('Error', err.value)
 			}
