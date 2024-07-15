@@ -1,509 +1,515 @@
 <template>
-	<div id="ody" :style="{ backgroundColor: bodyBackgroundColor }">
-		<nav class="navbar navbar-expand-lg text-white">
-			<div class="container-fluid nav-container" style="display: flex">
-				<div class="logo" style="margin-left: 10px; margin-top: 10px">
-					<router-link
-						to="/"
-						class="text-white"
-						style="margin-right: 0%"
-						href="#"
-					>
-						<img src="../assets/logo.png" alt="logo" />
-						<h2 style="margin-top: 2.5px; margin-left: 10px">BSOC</h2>
-					</router-link>
-				</div>
-
-				<div id="nav">
-					<section class="mb-3" id="hambur">
-						<div id="tension">
-							<div class="hamburger-menu">
-								<input id="menu__toggle" type="checkbox" />
-								<label class="menu__btn" for="menu__toggle">
-									<span></span>
-								</label>
-
-								<ul class="menu__box">
-									<router-link
-										v-if="isloggedIn"
-										class="menu__item"
-										to="/dashboard"
-									>
-										Dashboard
-									</router-link>
-
-									<router-link class="menu__item" to="/home">
-										Home
-									</router-link>
-
-									<router-link
-										class="menu__item"
-										to="/myPR"
-										v-if="isloggedIn"
-										v-on:click="handleMyPR"
-									>
-										My PR's
-									</router-link>
-
-									<router-link
-										class="menu__item"
-										to="/submit"
-										v-if="isloggedIn"
-									>
-										SubmitPR
-									</router-link>
-
-									<router-link class="menu__item" to="/projects">
-										Projects
-									</router-link>
-
-									<router-link
-										to="/projects"
-										v-if="!isloggedIn"
-										class="navbar-nav auth menu__item"
-										v-on:click="handleLogin"
-										style="
-											cursor: pointer;
-											text-align: center;
-											margin-left: 2em;
-										"
-									>
-										Login
-									</router-link>
-									<Login v-if="$store.state.login" :toggle="handleLogin" />
-
-									<router-link
-										to="/projects"
-										v-if="!isloggedIn"
-										class="navbar-nav auth menu__item"
-										v-on:click="handleSignup"
-										style="cursor: pointer; margin-left: 2em"
-									>
-										Signup
-									</router-link>
-									<Signup v-if="$store.state.signup" :toggle="handleSignup" />
-
-									<div
-										class="navbar-nav auth menu__item"
-										style="cursor: pointer; margin-left: 2em"
-										v-on:click="handleLogout"
-										v-if="isloggedIn"
-									>
-										LogOut
-									</div>
-								</ul>
-							</div>
-						</div>
-					</section>
-
-					<div class="navbar-collapse collapse" id="Yahoo">
-						<div
-							class="navbarhh"
-							style="
-								float: left !important;
-								margin-left: 0px;
-								display: flex;
-								margin-right: 40px;
-							"
-						>
-							<div class="d-flex align-item-center" v-if="isloggedIn">
-								<router-link
-									class="nav-link px-2 text-white"
-									:to="isHome ? '/dashboard' : '/home'"
-									style="
-										text-decoration: none;
-										float: left;
-										color: inherit;
-										margin-left: 0px;
-										margin-top: 23px;
-									"
-									v-on:click="toggleHomeDashboard"
-								>
-									{{ isHome ? 'Dashboard' : 'Home' }}
-								</router-link>
-
-								<router-link
-									class="nav-link mt-4 px-4 text-white"
-									to="/myPR"
-									style="
-										text-decoration: none;
-										margin-top: 22px;
-										color: inherit;
-									"
-									v-if="isloggedIn"
-								>
-									My PR's
-								</router-link>
-
-								<router-link
-									class="nav-link mt-4 px-4 text-white"
-									to="/submit"
-									style="
-										text-decoration: none;
-										margin-top: 22px;
-										color: inherit;
-									"
-									v-if="isloggedIn"
-								>
-									SubmitPR
-								</router-link>
-							</div>
-							<div v-else class="hii" style="float: left">
-								<button
-									class="nav-button hii mt-1"
-									style="
-										display: flex;
-										float: left;
-										padding-left: -100%;
-										margin-top: 23px !important;
-									"
-									v-on:click="handleLogin"
-								>
-									Dashboard
-								</button>
-							</div>
-							<router-link
-								class="nav-link mz-0 mx-0 my-0 mt-4 px-4 text-white"
-								to="/projects"
-							>
-								Projects
-							</router-link>
-						</div>
-					</div>
-				</div>
-				<div v-if="!isloggedIn" class="navbar-nav auth">
-					<div
-						class="hambur2"
-						v-on:click="handleLogin"
-						style="
-							padding-right: 0em;
-							cursor: pointer;
-							margin-right: 20px;
-							margin-top: 14px;
-						"
-					>
-						Login
-					</div>
-					<Login v-if="$store.state.login" :toggle="handleLogin" />
-					<span
-						class="hambur2"
-						v-on:click="handleSignup"
-						style="cursor: pointer; margin-right: 0px; margin-top: 14px"
-					>
-						Sign Up
-					</span>
-					<Signup v-if="$store.state.signup" :toggle="handleSignup" />
-				</div>
-				<div v-if="isloggedIn" class="navbar-nav auth">
-					<button
-						class="nav-button hambur2"
-						style="margin-right: 80px; margin-top: 22px"
-						v-on:click="handleLogout"
-					>
-						LogOut
-					</button>
-				</div>
+	<header :class="{ 'scrolled-nav': scrollNav }">
+		<nav>
+			<div class="branding">
+				<img src="../assets/logo.png" alt="img" />
 			</div>
+
+			<!-- Navbar -->
+			<div class="nav-div">
+				<ul v-show="!mobile" class="navigations">
+					<li>
+						<router-link
+							class="link"
+							to="/home"
+							@click.native="setActiveMenuItemAndCloseNav('home')"
+						>
+							Home
+						</router-link>
+					</li>
+
+					<li>
+						<router-link
+							class="link"
+							to="/dashboard"
+							@click.native="setActiveMenuItemAndCloseNav('dashboard')"
+						>
+							Dashboard
+						</router-link>
+					</li>
+
+					<li>
+						<router-link
+							class="link"
+							to="/projects"
+							@click.native="setActiveMenuItemAndCloseNav('projects')"
+						>
+							Projects
+						</router-link>
+					</li>
+
+					<template v-if="isLoggedIn">
+						<li>
+							<router-link
+								class="link"
+								to="/submit"
+								@click.native="setActiveMenuItemAndCloseNav('submit')"
+							>
+								Submit PR
+							</router-link>
+						</li>
+
+						<li>
+							<router-link
+								class="link"
+								to="/myPR"
+								@click.native="setActiveMenuItemAndCloseNav('myPR')"
+							>
+								My PR
+							</router-link>
+						</li>
+
+						<div class="animation start-home"></div>
+					</template>
+				</ul>
+			</div>
+
+			<div class="auth-div">
+				<ul v-show="!mobile" class="authnavigations">
+					<template v-if="!isLoggedIn">
+						<li>
+							<router-link class="auth" to="/auth"> Login </router-link>
+						</li>
+
+						<li>
+							<router-link class="auth" to="/signup"> Sign Up </router-link>
+						</li>
+					</template>
+
+					<template v-else>
+						<li @click="logout" class="auth">Log Out</li>
+					</template>
+				</ul>
+			</div>
+
+			<div class="icon" @click="toggleMobileNav">
+				<i
+					v-show="mobile && !mobileNav"
+					class="fas fa-bars"
+					:class="{ 'icon-active': mobileNav }"
+					style="
+						font-size: 1.5rem;
+						position: fixed;
+						top: 20px;
+						right: 25px;
+						cursor: pointer;
+						z-index: 100;
+					"
+				></i>
+			</div>
+
+			<div class="icon" @click="toggleMobileNav">
+				<i
+					v-show="mobile && mobileNav"
+					class="fas fa-times"
+					:class="{ 'icon-active': mobileNav }"
+					style="
+						font-size: 1.5rem;
+						position: fixed;
+						top: 20px;
+						right: 25px;
+						cursor: pointer;
+						z-index: 100;
+					"
+				></i>
+			</div>
+
+			<transition name="mobile-nav">
+				<ul v-show="mobileNav" class="dropdown-nav">
+					<li>
+						<router-link
+							class="link"
+							:class="{ active: activeMenuItem === 'home' }"
+							to="/home"
+							@click.native="setActiveMenuItemAndCloseNav('home')"
+						>
+							Home
+						</router-link>
+					</li>
+
+					<li>
+						<router-link
+							class="link"
+							:class="{ active: activeMenuItem === 'dashboard' }"
+							to="/dashboard"
+							@click.native="setActiveMenuItemAndCloseNav('dashboard')"
+						>
+							Dashboard
+						</router-link>
+					</li>
+
+					<li>
+						<router-link
+							class="link"
+							:class="{ active: activeMenuItem === 'projects' }"
+							to="/projects"
+							@click.native="setActiveMenuItemAndCloseNav('projects')"
+						>
+							Projects
+						</router-link>
+					</li>
+
+					<template v-if="isLoggedIn">
+						<li>
+							<router-link
+								class="link"
+								:class="{ active: activeMenuItem === 'myPR' }"
+								to="/mypr"
+								@click.native="setActiveMenuItemAndCloseNav('myPR')"
+							>
+								My PR
+							</router-link>
+						</li>
+
+						<li @click="logout" class="link">Log out</li>
+					</template>
+
+					<template v-else>
+						<li>
+							<router-link
+								class="link"
+								:class="{ active: activeMenuItem === 'signup' }"
+								to="/signup"
+								@click.native="setActiveMenuItemAndCloseNav('signup')"
+							>
+								Sign Up
+							</router-link>
+						</li>
+						<li>
+							<router-link
+								class="link"
+								:class="{ active: activeMenuItem === 'auth' }"
+								to="/login"
+								@click.native="toggleLogin()"
+							>
+								Login
+							</router-link>
+						</li>
+					</template>
+				</ul>
+			</transition>
 		</nav>
-	</div>
+	</header>
+	<Login
+		v-if="showLogin"
+		:toggle="toggleLogin"
+		@loginSuccess="handleLoginSuccess"
+	/>
+	<Signup
+		v-if="showSignup"
+		:toggle="toggleSignup"
+		@signupSuccess="handleSignupSuccess"
+	/>
 </template>
 
 <script>
-import useLogout from '@/composables/useLogout'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { projectAuth } from '../firebase/config'
-import Login from './Login.vue'
-import Signup from './Signup.vue'
+import Login from '@/components/Login'
+import Signup from '@/components/Signup'
+import { successToast, errorToast } from '../composables/useToast'
+
 export default {
 	name: 'Nav',
-	data() {
-		return {
-			login: false,
-			signup: false,
-			showHamburger: false,
-		}
-	},
-
-	created() {
-		this.checkAuth()
-		this.isHomePage()
-	},
 	components: {
 		Login,
 		Signup,
-		Login,
-		Signup,
+	},
+	data() {
+		return {
+			scrollNav: false,
+			mobile: false,
+			mobileNav: false,
+			windowWidth: null,
+			isLoggedIn: false,
+			showLogin: false,
+			showSignup: false,
+			activeMenuItem: '',
+		}
+	},
+	created() {
+		window.addEventListener('resize', this.checkScreen)
+		this.checkScreen()
+		this.checkUserLoggedIn()
+	},
+	mounted() {
+		window.addEventListener('scroll', this.updateScroll)
 	},
 	methods: {
-		handleLogin() {
-			this.$store.state.login = !this.$store.state.login
-			this.showHamburger = !this.showHamburger
+		toggleMobileNav() {
+			this.mobileNav = !this.mobileNav
 		},
-		handleSignup() {
-			this.$store.state.signup = !this.$store.state.signup
+		closeMobileNav() {
+			this.mobileNav = false
 		},
-		toggleHamburger() {
-			this.showHamburger = !this.showHamburger
+		toggleLogin() {
+			this.showLogin = !this.showLogin
 		},
-		toggleHomeDashboard() {
-			this.isHome = !this.isHome
+		toggleSignup() {
+			this.showSignup = !this.showSignup
 		},
-	},
-	beforeRouteLeave(to, from, next) {
-		this.isHomePage()
-		next()
-	},
-	setup() {
-		const { error, logout } = useLogout()
-		let isloggedIn = ref(false)
-		let isHome = ref(true)
-		const userPR = ref(false)
-		const router = useRouter()
-		const collapse11 = ref(false)
-
-		const checkAuth = () => {
+		checkScreen() {
+			this.windowWidth = window.innerWidth
+			if (this.windowWidth <= 850) {
+				this.mobile = true
+			} else {
+				this.mobile = false
+				this.mobileNav = false
+			}
+		},
+		updateScroll() {
+			const scrollPosition = window.scrollY
+			this.scrollNav = scrollPosition > 50
+		},
+		async checkUserLoggedIn() {
 			projectAuth.onAuthStateChanged((user) => {
-				if (user) {
-					isloggedIn.value = true
-				} else {
-					isloggedIn.value = false
-				}
+				this.isLoggedIn = !!user
 			})
-		}
-
-		const isHomePage = () => {
-			if (window.location.pathname === '/home') {
-				isHome.value = true
-			} else {
-				isHome.value = false
+		},
+		async logout() {
+			try {
+				await projectAuth.signOut()
+				this.isLoggedIn = false
+				successToast('Success', 'Logout successful')
+			} catch (error) {
+				errorToast('Error', 'Logout failed')
+				console.error('Logout error:', error.message)
 			}
-			if (window.location.pathname === '/myPR') {
-				userPR.value = true
-			}
-		}
-
-		const handleLogout = () => {
-			logout()
-			if (!error.value) {
-				router.push({ name: 'Home' })
-			} else {
-				console.log(error.value)
-			}
-		}
-
-		const handleMyPR = () => {
-			userPR.value = !userPR.value
-		}
-
-		return {
-			handleMyPR,
-			userPR,
-			isloggedIn,
-			checkAuth,
-			isHomePage,
-			handleLogout,
-			isHome,
-			collapse11,
-		}
+		},
+		setActiveMenuItemAndCloseNav(item) {
+			this.activeMenuItem = item
+			this.mobileNav = false
+		},
+		handleLoginSuccess() {
+			successToast('Success', 'Login successful')
+			this.showLogin = false
+		},
+		handleSignupSuccess() {
+			successToast('Success', 'Signup successful')
+			this.showSignup = false
+		},
 	},
 }
 </script>
 
 <style scoped>
-@media (min-width: 991px) {
-	#hambur {
-		display: none !important;
-	}
-}
-
-@media (max-width: 991px) {
-	.hambur2 {
-		display: none !important;
-		/* display:none !important; */
-	}
-}
-
-@media (min-width: 992px) {
-	.hii {
-		display: contents;
-		float: left;
-		/* margin-left: 0px !important; */
-		margin-left: -25vw !important;
-		margin-top: 1px !important;
-	}
-}
-
-@media (min-width: 1300px) {
-	.hii {
-		display: contents;
-		float: left;
-		/* margin-left: 0px !important; */
-		margin-left: -33vw !important;
-	}
-}
-
-@media (min-width: 1800px) {
-	.hii {
-		display: contents;
-		float: left;
-		/* margin-left: 0px !important; */
-		margin-left: -38vw !important;
-	}
-}
-
-#menu__toggle {
-	opacity: 0;
-}
-
-#menu__toggle:checked ~ .menu__btn > span {
-	transform: rotate(45deg);
-}
-
-#menu__toggle:checked ~ .menu__btn > span::before {
-	top: 0;
-	transform: rotate(0);
-}
-
-#menu__toggle:checked ~ .menu__btn > span::after {
-	top: 0;
-	transform: rotate(90deg);
-}
-
-#menu__toggle:checked ~ .menu__box {
-	visibility: visible;
-	left: 0;
-}
-
-.menu__btn {
-	display: flex;
-	align-items: center;
+header {
+	z-index: 99;
 	position: fixed;
-	top: 30px;
-	/* left: 20px; */
-	right: 70px;
-	margin-left: auto;
-	width: 26px;
-	height: 26px;
-	/* color: white; */
-
-	cursor: pointer;
-	z-index: 1;
-}
-
-.menu__btn > span,
-.menu__btn > span::before,
-.menu__btn > span::after {
-	display: block;
-	position: absolute;
-
-	width: 100%;
-	height: 2px;
-
-	background-color: rgb(245, 235, 235) !important;
-
-	transition-duration: 0.25s;
-}
-
-.menu__btn > span::before {
-	content: '';
-	top: -8px;
-}
-
-.menu__btn > span::after {
-	content: '';
-	top: 8px;
-}
-
-.menu__box {
-	display: block;
-	position: fixed;
-	visibility: hidden;
-	top: 0;
-	left: -100%;
-
 	width: 100vw;
-	height: 100vh;
-
-	margin: 0;
-	padding: 150px 0px;
-
-	list-style: none;
-
-	background-color: #19192a;
-	box-shadow: 1px 0px 6px rgba(0, 0, 0, 0.2);
-
-	transition-duration: 0.25s;
-}
-
-.menu__item {
-	display: flex;
-	justify-content: center;
-	text-align: center;
-	display: block;
-	padding: 12px 24px;
-
+	transition: 0.5s ease all;
 	color: white;
-	background-color: #19192a;
-
-	font-family: 'Roboto', sans-serif;
-	font-size: 20px;
-	font-weight: 600;
-
-	text-decoration: none;
-
-	transition-duration: 0.25s;
 }
 
-.menu__item:hover {
-	background-color: rgb(141, 141, 178);
-}
-
-.navbar {
-	position: fixed;
-	height: 8vh;
+nav {
+	display: flex;
 	width: 100vw;
-	z-index: 10;
-	-webkit-backdrop-filter: blur(8px);
-	backdrop-filter: blur(8px);
-}
+	box-sizing: border-box;
+	margin-top: 0.6rem;
 
-.nav-container {
-	display: flex;
-	align-items: center;
-	gap: 2em;
-}
+	ul,
+	.link {
+		font-weight: 500;
+		color: white;
+		list-style: none;
+		align-items: center;
+		text-align: center;
+		text-decoration: none;
+	}
 
-.logo {
-	margin: -10px 0;
-}
+	li {
+		padding: 0.8rem;
 
-.logo a {
-	display: flex;
-	gap: 0.4em;
-	text-decoration: none;
-}
+		width: 10rem;
+		z-index: 100;
+	}
 
-.logo h2 {
-	top: 0.15em;
-	position: relative;
-}
+	.link {
+		font-size: 1.1rem;
+		transition: 0.5s ease all;
+		padding-bottom: 0.2rem;
+		border-bottom: 0.1rem solid transparent;
+		cursor: pointer;
+		width: 10rem;
+		text-align: center;
 
-.logo img {
-	position: relative;
-	object-fit: contain;
-	height: 3em;
-	width: 3em;
-}
+		&:hover {
+			color: black;
+			z-index: 100;
+		}
+	}
 
-.auth {
-	margin-right: 2em;
-}
+	.branding {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 10vw;
 
-.nav-button {
-	background: none;
-	border: none;
-	color: white;
-	margin-left: 0%;
+		img {
+			width: 3rem;
+			transition: 0.5s ease all;
+		}
+	}
+	.nav-div {
+		position: relative;
+		width: 70vw;
+		padding-left: 4rem;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.navigations {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		list-style-type: none;
+	}
+
+	.navigations .animation {
+		position: fixed;
+		height: 3.5rem;
+		top: 7px;
+		z-index: 0;
+		background-color: #0891b3;
+		border-radius: 0.5rem;
+		transition: all 0.5s ease 0s;
+	}
+
+	.navigations li:nth-child(1) {
+		width: 7rem;
+	}
+	.navigations .start-home,
+	li:nth-child(1):hover ~ .animation {
+		width: 7rem;
+		left: 24.7rem;
+	}
+	.navigations li:nth-child(2) {
+		width: 9rem;
+	}
+	.navigations li:nth-child(2):hover ~ .animation {
+		width: 9rem;
+		left: 31.76rem;
+	}
+	.navigations li:nth-child(3) {
+		width: 8rem;
+	}
+	.navigations li:nth-child(3):hover ~ .animation {
+		width: 8rem;
+		left: 40.7rem;
+	}
+	.navigations li:nth-child(4) {
+		width: 9rem;
+	}
+	.navigations li:nth-child(4):hover ~ .animation {
+		width: 9rem;
+		left: 48.6rem;
+	}
+	.navigations li:nth-child(5) {
+		width: 7rem;
+	}
+	.navigations li:nth-child(5):hover ~ .animation {
+		width: 7rem;
+		left: 57.6rem;
+	}
+
+	.auth-div {
+		width: 20%;
+		padding-left: 3rem;
+	}
+	.authnavigations {
+		display: flex;
+	}
+
+	.icon {
+		position: absolute;
+		left: 50px;
+		display: flex;
+		align-items: center;
+		height: 100%;
+		cursor: pointer;
+		font-size: 1.5rem;
+		transition: 0.5s ease all;
+	}
+
+	.icon-active {
+		transform: rotate(180deg);
+	}
+
+	.dropdown-nav {
+		display: flex;
+		flex-direction: column;
+		position: fixed;
+		width: 100%;
+		max-width: 15.62rem;
+		height: 100%;
+		background-color: #18181b;
+		top: 0;
+		right: 0;
+		padding-top: 3.75rem;
+	}
+
+	.dropdown-nav .link.active {
+		display: block;
+		background-color: #0891b3;
+
+		border-radius: 1.25rem;
+
+		text-align: center;
+		color: white;
+		height: 2.68rem;
+		width: 100%;
+		transition: background-color 0.7s ease;
+	}
+
+	.dropdown-nav .link.active:hover {
+		background-color: #0891b3;
+	}
+
+	.mobile-nav-enter-active,
+	.mobile-nav-leave-active {
+		transition: 1s ease all;
+	}
+
+	.mobile-nav-enter-from,
+	.mobile-nav-leave-to {
+		transform: translateX(15.625rem);
+	}
+
+	.mobile-nav-enter-to {
+		transform: translateX(0);
+	}
+
+	.auth {
+		color: #0891b3;
+		border: #0891b3 1px solid;
+		border-radius: 6rem;
+		cursor: pointer;
+		text-align: center;
+		text-decoration: none;
+
+		&:hover {
+			color: white;
+		}
+	}
+
+	.scrolled-nav {
+		background-color: black;
+		box-shadow:
+			0 4px 6px -1px rgba(0, 0, 0, 0.1),
+			0 2px 4px -1px rgba(0, 0, 0, 0.6);
+
+		> nav {
+			padding: 8px 5%;
+
+			.branding {
+				img {
+					width: 40px;
+					box-shadow:
+						0 4px 6px -1px rgba(0, 0, 0, 0.1),
+						0 2px 4px -1px rgba(0, 0, 0, 0.6);
+				}
+			}
+		}
+	}
 }
 </style>
