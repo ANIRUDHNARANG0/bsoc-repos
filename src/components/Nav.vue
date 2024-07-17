@@ -2,12 +2,13 @@
 	<header :class="{ 'scrolled-nav': scrollNav }">
 		<nav>
 			<div class="branding">
-				<img src="../assets/logo.png" alt="img" />
+				<img src="../assets/BsoC logo.svg" alt="img" />
 			</div>
 
 			<!-- Navbar -->
 			<div class="nav-div">
 				<ul v-show="!mobile" class="navigations">
+					
 					<li>
 						<router-link
 							class="link"
@@ -59,7 +60,12 @@
 							</router-link>
 						</li>
 
-						<div class="animation start-home"></div>
+                    <div class="line"></div>
+					<div class="animation start-home">
+						<div class="one"></div>
+                        <div class="two"></div>
+					</div>
+						
 					</template>
 				</ul>
 			</div>
@@ -97,6 +103,9 @@
 					"
 				></i>
 			</div>
+             
+
+        <!-- Hamburger -->
 
 			<div class="icon" @click="toggleMobileNav">
 				<i
@@ -116,6 +125,9 @@
 
 			<transition name="mobile-nav">
 				<ul v-show="mobileNav" class="dropdown-nav">
+					<div class="imageham">
+						<img src="../assets/BsoC logo.svg" alt="img" />
+					</div>
 					<li>
 						<router-link
 							class="link"
@@ -295,16 +307,16 @@ export default {
 header {
 	z-index: 99;
 	position: fixed;
-	width: 100vw;
+	width: 100%;
 	transition: 0.5s ease all;
 	color: white;
 }
 
 nav {
 	display: flex;
-	width: 100vw;
+	width: 100%;
 	box-sizing: border-box;
-	margin-top: 0.6rem;
+	margin-top: 0.6%;
 
 	ul,
 	.link {
@@ -317,19 +329,20 @@ nav {
 	}
 
 	li {
-		padding: 0.8rem;
-
-		width: 10rem;
+		padding: 0.9%;
+        margin-left: 4%;
+		width: 50%;
 		z-index: 100;
+		margin-top: 3%;
 	}
 
 	.link {
-		font-size: 1.1rem;
+		font-size: 130%;
 		transition: 0.5s ease all;
-		padding-bottom: 0.2rem;
+		padding-bottom: 0.2%;
 		border-bottom: 0.1rem solid transparent;
 		cursor: pointer;
-		width: 10rem;
+		
 		text-align: center;
 
 		&:hover {
@@ -342,17 +355,32 @@ nav {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		width: 10vw;
+		width: 10%;
+		margin-top: 1.3%;
 
 		img {
-			width: 3rem;
+			width: 40%;
 			transition: 0.5s ease all;
 		}
 	}
+
+	.imageham {
+		
+		position: relative;
+		top:-40px;
+		left:-110px;
+		cursor: pointer;
+		
+		img {
+			width: 50%;
+			transition: 0.5s ease all;
+		}
+	}
+
 	.nav-div {
 		position: relative;
-		width: 70vw;
-		padding-left: 4rem;
+		width: 70%;
+		padding-left: 4%;
 		justify-content: center;
 		align-items: center;
 	}
@@ -367,54 +395,93 @@ nav {
 
 	.navigations .animation {
 		position: fixed;
-		height: 3.5rem;
-		top: 7px;
+		height: 10%;
+		top: 20px;
 		z-index: 0;
+		text-align: center;
+		justify-content: center;
 		background-color: #0891b3;
-		border-radius: 0.5rem;
+		border-radius: 0 0 40px 40px;
 		transition: all 0.5s ease 0s;
 	}
+	
+	.navigations .animation .one {
+		position: relative;
+		height: 150%;
+		width:150%;
+		border-radius: 1000px;
+		top:-5px;
+		left:81%;
+		content: '';
+		z-index:-1;
+		border-left: 20px solid #0891b3;
+		border-right: 20px solid transparent;
+		border-top: 20px solid transparent;
+		border-bottom: 20px solid transparent;
+		transform:rotate(30deg);
+	}
 
+	.navigations .animation .two{
+		position: relative;
+		height: 150%;
+		width:150%;
+		border-radius: 1000px;
+		top:-125px;
+		right:130.5%;
+		content: '';
+		z-index:-1;
+
+		border-left: 20px solid transparent;
+		border-right: 20px solid #0891b3;
+		border-top: 20px solid transparent;
+		border-bottom: 20px solid transparent;
+		transform:rotate(-30deg);
+	}
+	
+	
+
+	
 	.navigations li:nth-child(1) {
-		width: 7rem;
+		width: 13%;
 	}
 	.navigations .start-home,
 	li:nth-child(1):hover ~ .animation {
-		width: 7rem;
-		left: 24.7rem;
+		width: 9%;
+		left: 23.8%;
 	}
 	.navigations li:nth-child(2) {
-		width: 9rem;
+		width: 12%;
 	}
 	.navigations li:nth-child(2):hover ~ .animation {
-		width: 9rem;
-		left: 31.76rem;
+		width: 9%;
+		left: 34.7%;
 	}
 	.navigations li:nth-child(3) {
-		width: 8rem;
+		width: 13.7%;
 	}
 	.navigations li:nth-child(3):hover ~ .animation {
-		width: 8rem;
-		left: 40.7rem;
+		width: 9%;
+		left: 45.2%;
 	}
 	.navigations li:nth-child(4) {
-		width: 9rem;
+		width: 13%;
 	}
 	.navigations li:nth-child(4):hover ~ .animation {
-		width: 9rem;
-		left: 48.6rem;
+		width: 9%;
+		left: 56.2%;
 	}
 	.navigations li:nth-child(5) {
-		width: 7rem;
+		width: 11%;
 	}
 	.navigations li:nth-child(5):hover ~ .animation {
-		width: 7rem;
-		left: 57.6rem;
+		width: 9%;
+		left: 66.4%;
 	}
 
 	.auth-div {
 		width: 20%;
 		padding-left: 3rem;
+		top:10%
 	}
 	.authnavigations {
 		display: flex;
@@ -482,11 +549,12 @@ nav {
 	.auth {
 		color: #0891b3;
 		border: #0891b3 1px solid;
+		font-size: 140%;
 		border-radius: 6rem;
 		cursor: pointer;
 		text-align: center;
 		text-decoration: none;
-
+		margin-top: 15%;
 		&:hover {
 			color: white;
 		}
@@ -511,5 +579,202 @@ nav {
 			}
 		}
 	}
-}
+	.line{
+		position: fixed;
+		background-color: #0891b3;
+		width: 200vw;
+		height: 20px;
+		top:0;
+	}
+
+	@media (max-width: 1374px) {
+		.navigations .animation {
+			position: fixed;
+			height: 6%;
+			top: 2%;
+			z-index: 0;
+			background-color: #0891b3;
+			border-radius: 0.5rem;
+			transition: all 0.5s ease 0s;
+		}
+	  }
+
+	  @media (max-width: 1243px) {
+
+		.auth {
+			color: #0891b3;
+			border: #0891b3 1px solid;
+			font-size: 110%;
+			border-radius: 6rem;
+			cursor: pointer;
+			text-align: center;
+			text-decoration: none;
+			margin-top: 8.5%;
+			&:hover {
+				color: white;
+			}
+		}
+
+        li {
+			padding: 0.2%;
+			font-size: 80%;
+			margin-left: 4%;
+			top:10%;
+			width: 60%;
+			z-index: 100;
+			margin-top:2%;
+		}
+
+		.navigations .animation {
+			position: fixed;
+			height: 5%;
+			top: 2.3%;
+			z-index: 0;
+			background-color: #0891b3;
+			border-radius: 0.5rem;
+			transition: all 0.5s ease 0s;
+		}
+
+        .navigations .animation {
+			position: fixed;
+			height: 10%;
+			top: 20px;
+			z-index: 0;
+			text-align: center;
+			justify-content: center;
+			background-color: #0891b3;
+			border-radius: 0 0 40px 40px;
+			transition: all 0.5s ease 0s;
+		}
+		
+		.navigations .animation .one {
+			position: relative;
+			height: 150%;
+			width:150%;
+			border-radius: 1000px;
+			top:-5px;
+			left:81%;
+			content: '';
+			z-index:-1;
+			border-left: 20px solid #0891b3;
+			border-right: 20px solid transparent;
+			border-top: 20px solid transparent;
+			border-bottom: 20px solid transparent;
+			transform:rotate(30deg);
+		}
+
+			.navigations li:nth-child(1) {
+				width: 12%;
+			}
+			.navigations .start-home,
+			li:nth-child(1):hover ~ .animation {
+				width: 8%;
+				left:24.4%;
+			}
+			.navigations li:nth-child(2) {
+				width: 13%;
+			}
+			.navigations li:nth-child(2):hover ~ .animation {
+				width: 10%;
+				left: 34%;
+			}
+			.navigations li:nth-child(3) {
+				width: 13.7%;
+			}
+			.navigations li:nth-child(3):hover ~ .animation {
+				width: 7%;
+				left: 46.2%;
+			}
+			.navigations li:nth-child(4) {
+				width: 13%;
+			}
+			.navigations li:nth-child(4):hover ~ .animation {
+				width: 9%;
+				left: 56.2%;
+			}
+			.navigations li:nth-child(5) {
+				width: 11%;
+			}
+			.navigations li:nth-child(5):hover ~ .animation {
+				width: 7%;
+				left: 67.4%;
+			}
+		}
+
+		@media (max-width: 991px) {
+
+			.auth {
+				color: #0891b3;
+				border: #0891b3 1px solid;
+				font-size: 80%;
+				border-radius: 6rem;
+				cursor: pointer;
+				text-align: center;
+				text-decoration: none;
+				margin-top: 10%;
+				&:hover {
+					color: white;
+				}
+			}
+	
+			li {
+				font-size: 67%;
+				margin-left: 3%;
+				top:10%;
+				width: 60%;
+				z-index: 100;
+				margin-top:2%;
+			}
+	
+			.navigations .animation {
+				position: fixed;
+				height: 4%;
+				top: 2%;
+				z-index: 0;
+				background-color: #0891b3;
+				border-radius: 0.5rem;
+				transition: all 0.5s ease 0s;
+			}
+				.navigations li:nth-child(1) {
+					width: 12%;
+				}
+				.navigations .start-home,
+				li:nth-child(1):hover ~ .animation {
+					width: 7%;
+					left:26.7%;
+				}
+				.navigations li:nth-child(2) {
+					width: 13%;
+				}
+				.navigations li:nth-child(2):hover ~ .animation {
+					width: 10%;
+					left: 35%;
+				}
+				.navigations li:nth-child(3) {
+					width: 13.7%;
+				}
+				.navigations li:nth-child(3):hover ~ .animation {
+					width: 7%;
+					left: 46.4%;
+				}
+				.navigations li:nth-child(4) {
+					width: 13%;
+				}
+				.navigations li:nth-child(4):hover ~ .animation {
+					width: 9%;
+					left: 55.8%;
+				}
+				.navigations li:nth-child(5) {
+					width: 11%;
+				}
+				.navigations li:nth-child(5):hover ~ .animation {
+					width: 7%;
+					left: 66%;
+				}
+			}
+	}
+
+	 
+	
+  
 </style>
